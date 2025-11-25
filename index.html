@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Comunidad - Próximamente</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind config (colores y fuentes) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#7c3aed', /* morado vibrante */
+                        accent: '#06b6d4',  /* turquesa */
+                        warm: '#ff6b6b'     /* acento cálido */
+                    },
+                    fontFamily: {
+                        display: ['Poppins', 'ui-sans-serif', 'system-ui'],
+                        body: ['Inter', 'ui-sans-serif', 'system-ui']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Pequeñas mejoras visuales adicionales */
+        .glow {
+            text-shadow: 0 6px 30px rgba(124, 58, 237, 0.25);
+        }
+
+        .card-gradient {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(6, 182, 212, 0.06));
+            border: 1px solid rgba(124, 58, 237, 0.06);
+            backdrop-filter: blur(6px);
+        }
+
+        .accent-line {
+            height: 6px;
+            background: linear-gradient(90deg, #ff6b6b, #7c3aed, #06b6d4);
+            border-radius: 999px;
+        }
+
+        /* Floating shapes */
+        .float-blob {
+            position: absolute;
+            filter: blur(40px);
+            opacity: 0.55;
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body class="antialiased bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-100">
+
+    <!-- Decorative background blobs -->
+    <div aria-hidden="true">
+        <div class="float-blob w-72 h-72 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(124,58,237,0.6),transparent)] left-1/4 top-0 transform -translate-x-1/2 -translate-y-1/3"
+            style="position: absolute;"></div>
+        <div class="float-blob w-80 h-80 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(6,182,212,0.45),transparent)] right-1/4 top-20 transform translate-x-1/2 -translate-y-1/4"
+            style="position: absolute;"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="relative z-40">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
+            <!-- Mobile toggle -->
+            <button id="mobileMenuBtn"
+                class="sm:hidden p-2 rounded-md text-slate-100 bg-slate-800/40 hover:bg-slate-800/60 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
+            <!-- Logo -->
+            <a class="flex items-center gap-3" href="/">
+                <div
+                    class="w-12 h-12 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center shadow-lg">
+                    <span class="font-display text-white text-xl">LM</span>
+                </div>
+                <div class="hidden sm:block">
+                    <h1 class="text-xl font-display leading-none">Comunidad</h1>
+                    <p class="text-sm text-slate-300">Aprende. Conecta. Crece.</p>
+                </div>
+            </a>
+
+            <!-- Desktop nav -->
+            <nav class="hidden sm:flex items-center gap-6">
+                <a href="#experiencias" class="text-sm hover:text-white text-slate-200">Experiencias</a>
+                <a href="#eventos" class="text-sm hover:text-white text-slate-200">Eventos</a>
+                <a href="#testimonios" class="text-sm hover:text-white text-slate-200">Testimonios</a>
+                <button
+                    class="ml-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary to-accent text-white text-sm font-semibold shadow-md hover:scale-105 transition">
+                    ¿Ya eres miembro? Ingresar
+                </button>
+            </nav>
+        </div>
+
+        <div class="accent-line mx-auto max-w-5xl"></div>
+
+        <!-- MOBILE MENU (100% COVER + MAX ZINDEX) -->
+        <div id="mobileMenu" class="fixed inset-0 z-[9999] hidden">
+            <!-- Backdrop -->
+            <div id="mobileBackdrop" class="absolute inset-0 bg-black/90"></div>
+
+            <!-- Drawer -->
+            <aside
+                class="absolute left-0 top-0 bottom-0 w-72 bg-slate-900 border-r border-slate-700 p-6 transform -translate-x-full transition-all duration-300"
+                id="mobileDrawer">
+
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center">
+                            <span class="font-display text-white">LM</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold">Comunidad</h3>
+                            <p class="text-xs text-slate-400">Acceso exclusivo</p>
+                        </div>
+                    </div>
+
+                    <button id="mobileCloseBtn" class="p-2 rounded-md text-slate-200 hover:bg-slate-800/40">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <nav class="flex flex-col gap-4">
+                    <a href="#experiencias" class="py-2 px-2 rounded-md hover:bg-slate-800/50">Experiencias</a>
+                    <a href="#eventos" class="py-2 px-2 rounded-md hover:bg-slate-800/50">Eventos</a>
+                    <a href="#testimonios" class="py-2 px-2 rounded-md hover:bg-slate-800/50">Testimonios</a>
+                </nav>
+
+                <button
+                    class="mt-6 w-full px-4 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-white font-semibold shadow-md">
+                    ¿Ya eres miembro? Ingresar
+                </button>
+
+                <p class="mt-6 text-xs text-slate-500">© <span id="year-mobile"></span> Comunidad</p>
+
+            </aside>
+        </div>
+    </header>
+
+
+    <!-- Hero -->
+    <main class="relative z-10">
+<!-- HERO con video de fondo -->
+<!-- HERO con video de fondo -->
+<section class="relative overflow-hidden pt-32 pb-32">
+
+    <!-- Video de fondo SOLO dentro del hero -->
+    <div class="absolute inset-0 overflow-hidden">
+        <video class="w-full h-full object-cover parallax-video" autoplay loop muted playsinline>
+            <source src="/assets/video/hero.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- Capa oscura -->
+    <div class="absolute inset-0 bg-black/60"></div>
+
+    <!-- CONTENIDO CENTRADO -->
+    <div class="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-8">
+        <h2 class="text-4xl lg:text-6xl font-display leading-tight glow">
+            Únete a la experiencia.<br>Vive, aprende y crece.
+        </h2>
+
+        <p class="text-slate-300 max-w-2xl mx-auto">
+            Comunidad exclusiva para miembros: formación en técnicas, viajes, retiros y encuentros
+            internacionales. Contenido premium en video, recursos descargables y una comunidad que realmente
+            impulsa resultados.
+        </p>
+
+        <div class="flex justify-center gap-4 items-center">
+            <button id="ctaHero"
+                class="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-white font-semibold shadow-xl hover:scale-105 transition transform">
+                ¿Ya eres miembro? Ingresar
+            </button>
+            <a href="#experiencias" class="text-sm text-slate-200 hover:underline">Ver experiencias</a>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 max-w-md mx-auto pt-4">
+            <div class="card-gradient p-4 rounded-2xl">
+                <h3 class="text-sm font-semibold text-white">Retiros exclusivos</h3>
+                <p class="text-xs text-slate-300">Encuentros preparados para transformar negocios y vidas.</p>
+            </div>
+            <div class="card-gradient p-4 rounded-2xl">
+                <h3 class="text-sm font-semibold text-white">Viajes internacionales</h3>
+                <p class="text-xs text-slate-300">Experiencias que conectan liderazgo y expansión.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+        <section class="py-20 px-6 lg:px-12 max-w-6xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-10">
+                ¿Qué es <span class="text-primary">Nombre del movimiento</span>?
+            </h2>
+
+            <div class="rounded-3xl overflow-hidden shadow-2xl aspect-video mx-auto">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/Ul1BFnvWWM0?si=xgMklhg658ZnpsEJ"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen referrerpolicy="strict-origin-when-cross-origin">
+                </iframe>
+            </div>
+        </section>
+
+
+        <!-- Experiencias -->
+        <section id="experiencias" class="py-24 px-6 lg:px-12 max-w-6xl mx-auto">
+
+            <!-- Título general -->
+            <h2 class="text-4xl md:text-5xl font-display font-bold text-center mb-16">
+                Retiros de liderazgo
+            </h2>
+
+            <!-- === 1. Bloque === -->
+            <div class="grid lg:grid-cols-2 gap-12 items-center mb-24">
+
+                <!-- Video izquierda -->
+                <div class="rounded-3xl overflow-hidden shadow-xl aspect-video">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/csVWGuXCqBU?si=c_4vo3yidXkY56Zx"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
+                </div>
+
+                <!-- Texto derecha -->
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-semibold">Freedom Experience – Riviera Maya 2024</h3>
+                    <p class="text-slate-300 leading-relaxed">
+                        Un viaje profundo hacia la libertad interior. En Riviera Maya exploramos quiénes somos cuando
+                        nos animamos a soltar, reconectar y abrir espacio para una vida más auténtica. Fue un retiro
+                        lleno de poder, claridad y transformación personal.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- === 2. Bloque === -->
+            <div class="grid lg:grid-cols-2 gap-12 items-center mb-24">
+
+                <!-- Texto izquierda -->
+                <div class="order-2 lg:order-1 space-y-4">
+                    <h3 class="text-2xl font-semibold">Las Leñas Experience – 2024</h3>
+                    <p class="text-slate-300 leading-relaxed">
+                        Un encuentro entre la naturaleza y la fuerza del movimiento. En Las Leñas vivimos días de
+                        introspección, conexión con el cuerpo y expansión mental en un entorno que invitaba a detenerse
+                        y escucharse. Una experiencia que marcó un antes y un después.
+                    </p>
+                </div>
+
+                <!-- Video derecha -->
+                <div class="order-1 lg:order-2 rounded-3xl overflow-hidden shadow-xl aspect-video">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/Ylyjgx22NtM?si=U3k3oYrs9xb_4NHL"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
+                </div>
+
+            </div>
+
+
+            <!-- === 3. Bloque === -->
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+
+                <!-- Video izquierda -->
+                <div class="rounded-3xl overflow-hidden shadow-xl aspect-video">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/Y1T-c_Ea4Vg?si=w2Xr_TNvahkHru_Z"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
+                </div>
+
+                <!-- Texto derecha -->
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-semibold">Rio Experience – Brasil 2022</h3>
+                    <p class="text-slate-300 leading-relaxed">
+                        El punto de partida del movimiento. En Río nació la intención de crear experiencias distintas,
+                        humanas y profundas. Este encuentro nos recordó el poder de compartir, abrirnos y vivir
+                        presentes en cada paso.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Eventos Internacionales -->
+        <section id="eventos" class="mt-20 bg-gradient-to-b from-slate-800 to-slate-900 py-14">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="text-center">
+                    <h3 class="text-3xl font-display">Eventos Internacionales</h3>
+                    <p class="text-slate-300 max-w-2xl mx-auto mt-3">Encuentros en ciudades del mundo para impulsar
+                        líderes y crear redes sostenibles.</p>
+                </div>
+
+                <div class="mt-10 grid lg:grid-cols-3 gap-6">
+                    <div class="p-6 rounded-2xl card-gradient shadow-lg">
+                        <h4 class="font-semibold text-lg">Barcelona 2025</h4>
+                        <p class="text-slate-300 mt-2">Seminario intensivo de expansión de mercado.</p>
+                        <div class="mt-4">
+                            <span class="text-xs bg-primary/20 text-primary px-3 py-1 rounded-full">Plazas
+                                limitadas</span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl card-gradient shadow-lg">
+                        <h4 class="font-semibold text-lg">Ciudad de México 2025</h4>
+                        <p class="text-slate-300 mt-2">Masterclass y cenas de networking.</p>
+                        <div class="mt-4">
+                            <span class="text-xs bg-accent/10 text-accent px-3 py-1 rounded-full">Inscripción
+                                próximamente</span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl card-gradient shadow-lg">
+                        <h4 class="font-semibold text-lg">Bangkok 2026</h4>
+                        <p class="text-slate-300 mt-2">Retiros internacionales y experiencia cultural.</p>
+                        <div class="mt-4">
+                            <span class="text-xs bg-warm/20 text-warm px-3 py-1 rounded-full">Info exclusiva</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonios -->
+        <section id="testimonios" class="mt-20">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="text-center">
+                    <h3 class="text-3xl font-display">Testimonios</h3>
+                    <p class="text-slate-300 max-w-2xl mx-auto mt-3">Historias reales de miembros que transformaron su
+                        negocio.</p>
+                </div>
+
+                <div class="mt-8 grid md:grid-cols-3 gap-6">
+                    <blockquote class="p-6 card-gradient rounded-2xl shadow-lg">
+                        <p class="text-slate-200">"Gracias a la comunidad crecí en 6 meses y viajé por primera vez con
+                            mi equipo. Lo mejor que me pasó."</p>
+                        <footer class="mt-4 text-sm text-slate-400">— Mariana, líder</footer>
+                    </blockquote>
+
+                    <blockquote class="p-6 card-gradient rounded-2xl shadow-lg">
+                        <p class="text-slate-200">"Las capacitaciones y el networking cambiaron mi forma de trabajar.
+                            Recomiendo 100%."</p>
+                        <footer class="mt-4 text-sm text-slate-400">— Carlos, miembro</footer>
+                    </blockquote>
+
+                    <blockquote class="p-6 card-gradient rounded-2xl shadow-lg">
+                        <p class="text-slate-200">"Viajar con el equipo me dio claridad y energía para escalar mis
+                            resultados."</p>
+                        <footer class="mt-4 text-sm text-slate-400">— Lucía, coordinadora</footer>
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="mt-20">
+            <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center py-12 rounded-3xl card-gradient shadow-2xl">
+                <h3 class="text-3xl font-display">¿Quieres ser parte?</h3>
+                <p class="text-slate-300 mt-3">Acceso exclusivo solo para miembros activos. Si ya sos miembro, ingresa
+                    con la clave que te compartió el líder.</p>
+                <div class="mt-6">
+                    <button id="ctaBottom"
+                        class="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-white font-semibold shadow-xl hover:scale-105 transition transform">
+                        ¿Ya eres miembro? Ingresar
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-20 pb-12">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 border-t border-slate-700 pt-8">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-12 h-12 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center">
+                            <span class="font-display text-white">LM</span>
+                        </div>
+                        <div>
+                            <p class="text-sm">Comunidad • Formación • Experiencias</p>
+                            <p class="text-xs text-slate-500 mt-1">© <span id="year"></span> Todos los derechos
+                                reservados</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 text-sm text-slate-300">
+                        <a href="#" class="hover:text-white">Política de privacidad</a>
+                        <span class="mx-2">•</span>
+                        <a href="#" class="hover:text-white">Términos</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Poner año en footer si existe
+            const yearEl = document.getElementById('year');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+            // Redirecciones de botones (una sola definición)
+            const goIngresar = () => { window.location.href = '/ingresar.html'; };
+
+            const ingresarBtn = document.getElementById('ingresarBtn');
+            const ctaHero = document.getElementById('ctaHero');
+            const ctaBottom = document.getElementById('ctaBottom');
+
+            if (ingresarBtn) ingresarBtn.addEventListener('click', goIngresar);
+            if (ctaHero) ctaHero.addEventListener('click', goIngresar);
+            if (ctaBottom) ctaBottom.addEventListener('click', goIngresar);
+
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const target = this.getAttribute('href');
+                    const el = document.querySelector(target);
+                    if (el) {
+                        e.preventDefault();
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const mobileMenu = document.getElementById('mobileMenu');
+            const drawer = document.getElementById('mobileDrawer');
+
+            document.getElementById('mobileMenuBtn').onclick = () => {
+                mobileMenu.classList.remove('hidden');
+                drawer.classList.remove('-translate-x-full');
+            };
+
+            document.getElementById('mobileCloseBtn').onclick =
+                document.getElementById('mobileBackdrop').onclick = () => {
+                    drawer.classList.add('-translate-x-full');
+                    setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+                };
+
+        });
+
+        document.addEventListener("scroll", () => {
+    const scrolled = window.scrollY;
+    const video = document.querySelector(".parallax-video");
+
+    // Ajustá 0.2 o 0.3 según preferencia
+    video.style.transform = `translateY(${scrolled * 0.2}px)`;
+});
+
+    </script>
+</body>
+
+</html>

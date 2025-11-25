@@ -1,0 +1,16 @@
+.hero-parallax {
+    position: relative;        /* Esto es CLAVE */
+    overflow: hidden;          /* Evita que el video se salga */
+    height: 100vh;             /* Tamaño del hero */
+}
+
+.hero-parallax video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;         /* Para que el video llene bien el hero */
+    z-index: -1;               /* Detrás del contenido */
+    transform: translateY(0);  /* Para que empiece desde su lugar */
+}
